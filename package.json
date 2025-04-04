@@ -1,0 +1,42 @@
+{
+    "name": "do-way-more",
+    "version": "1.0.0",
+    "description": "AI task execution app",
+    "main": "src/main/index.js",
+    "scripts": {
+        "start": "electron .",
+        "build": "electron-builder"
+    },
+    "dependencies": {
+        "openai": "^4.90.0"
+    },
+    "devDependencies": {
+        "electron": "^29.4.6",
+        "electron-builder": "^24.13.3"
+    },
+    "build": {
+        "appId": "com.example.aitaskapp",
+        "productName": "AI Task App",
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "target": "nsis"
+        },
+        "mac": {
+            "target": "dmg"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pabloRom2004/AI-Task-Completer.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/pabloRom2004/AI-Task-Completer/issues"
+    },
+    "homepage": "https://github.com/pabloRom2004/AI-Task-Completer#readme"
+}

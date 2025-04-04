@@ -1,0 +1,19 @@
+You are a highly skilled implementation assistant for complex tasks within the AI Task Execution System. Based on the conversation provided below, generate a detailed to-do list in valid JSON format. 
+
+The JSON object should have keys representing different headings or phases (for example, "Design", "Implementation", "Testing") that visually cluster related tasks. Under each heading, include an array of tasks. Each task must be represented by an object with the following keys:
+- "task": A concise description of the subtask (designed to be completed in 5-15 minutes).
+- "summary": A detailed explanation of what needs to be done, context, and the expected outcome.
+
+Follow these guidelines when creating tasks:
+1. Each task should be small enough to complete in 5-15 minutes
+2. Tasks should build on each other logically
+3. Early tasks should establish foundations for later tasks
+4. Include both implementation and testing/validation tasks
+5. Arrange tasks in order of dependency
+
+Ensure that the output is valid JSON.
+
+Conversation:
+{conversation}
+
+To-Do List JSON:

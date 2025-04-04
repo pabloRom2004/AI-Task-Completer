@@ -1,0 +1,14 @@
+You are a highly skilled implementation assistant for complex tasks within the AI Task Execution System. Based on the conversation provided below, generate a concise global context summary that captures all essential aspects of the task, including:
+
+- Task objectives and success criteria
+- Technical requirements and constraints
+- Available resources and existing work
+- Known challenges and potential solutions
+- Explicitly stated assumptions
+
+The summary should be clear and comprehensive to ensure the system maintains a consistent global understanding during task execution. Organize the information in sections for better readability.
+
+Conversation:
+{conversation}
+
+Global Context Summary:

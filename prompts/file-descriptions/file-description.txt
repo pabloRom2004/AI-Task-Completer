@@ -1,0 +1,49 @@
+Create a concise yet comprehensive summary of this file that focuses on how it would be used or interacted with in the broader system. Your goal is to provide enough information that the AI can understand its purpose and interface without needing to open the original file in most cases.
+
+Focus on extracting the INTERACTION POINTS:
+
+For CODE files:
+* The file's overall purpose and role in the system
+* Only the public API: exported functions, classes, or variables intended for external use
+* For each export, document: function signature, parameters (with types/defaults), return values, and error handling patterns
+* Key usage patterns, examples, and requirements for proper interaction
+* Critical dependencies or relationships with other system components
+* Do NOT document purely internal implementation details unless they affect external usage
+
+For NARRATIVE content (like book chapters):
+* The chapter's role and significance in the overall narrative
+* Key plot developments that affect the story arc
+* Important character introductions or development
+* Essential settings or world-building elements introduced
+* Connections, references, or continuity with other chapters
+* Themes or motifs advanced in this chapter
+* Do NOT summarize every scene or dialogue exchange - focus on narrative progression
+
+For DOCUMENTATION:
+* The main topics, concepts, or features being documented
+* Key guidelines, specifications, or requirements
+* Essential examples or illustrations that demonstrate usage
+* References to related documentation or components
+* Do NOT extract every explanatory paragraph - focus on the key information needed for implementation
+
+For DATA files:
+* The data's purpose and role in the system
+* The overall structure and organization
+* Key fields/columns that external systems would interact with
+* Critical relationships or dependencies with other data
+* Usage patterns and access methods
+* Do NOT document every single data point - focus on the schema and meaningful elements
+
+For CONFIGURATION files:
+* The system component this configuration controls
+* Key configuration options and their effects on system behavior
+* Default values and their implications
+* Critical dependencies between configuration options
+* Do NOT list every possible setting - focus on the ones most likely to need adjustment
+
+Format your summary to maximize clarity and usability, using structured formats for technical content and narrative formats for creative content. The summary should enable effective decision-making about when to use this file and provide enough detail to interact with it without opening it when possible.
+
+Remember: The goal is to summarize how this file is USED, not everything it CONTAINS. Focus on what someone would need to know to effectively work with this file in relation to other files in the system.
+
+File Content:
+{fileContent}

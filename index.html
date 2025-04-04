@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <title>Do Way More</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Task Entry Page -->
+  <div id="taskEntryPage" class="page">
+    <canvas id="bgCanvas" class="interactive-background"></canvas>
+    <div class="centered-content">
+      <h1><span class="title-do">Do</span> <span class="title-way">Way</span> <span class="title-more">More</span></h1>
+      <p class="subtitle">Enter a complex task you'd like assistance with</p>
+      
+      <div class="task-input-container">
+        <textarea id="initialTaskDescription" class="animated-placeholder" placeholder=""></textarea>
+        <div class="button-group">
+          <button id="testPromptButton" class="secondary-button">Test Prompt</button>
+          <button id="startTaskEntry" class="primary-button">Let's Begin</button>
+        </div>
+        <button id="settingsButton" class="secondary-button">Settings</button>
+      </div>
+    </div>
+    <div class="background-pattern"></div>
+  </div>
+
+  <!-- Clarification Questions Page -->
+  <div id="clarificationPage" class="page" style="display: none">
+    <canvas class="interactive-background"></canvas>
+    <div class="centered-content wider">
+      <h1>Let's Clarify Your Task</h1>
+      <p class="subtitle">These questions will help me understand your needs better</p>
+      
+      <div class="question-container">
+        <div id="questionContainer" class="question-box"></div>
+        
+        <textarea id="questionAnswer" placeholder="Your answer (or leave blank if unsure)"></textarea>
+        
+        <div class="button-group">
+          <button id="skipQuestion" class="secondary-button">Skip / Unsure</button>
+          <button id="nextQuestion" class="primary-button">Next</button>
+        </div>
+      </div>
+    </div>
+    <div class="background-pattern"></div>
+  </div>
+
+  <!-- Task Definition Results Page -->
+  <div id="definitionResultsPage" class="page" style="display: none">
+    <canvas class="interactive-background"></canvas>
+    <div class="centered-content wider">
+      <h1>Task Analysis Complete</h1>
+      <p class="subtitle">I've analyzed your task and prepared a plan</p>
+      
+      <div class="results-container">
+        <div id="globalContextOutput" class="result-box">
+          <h2>Global Context</h2>
+          <div class="content"></div>
+        </div>
+        
+        <div id="todoListOutput" class="result-box">
+          <h2>To-Do List</h2>
+          <div class="content"></div>
+        </div>
+        
+        <button id="proceedToExecution" class="primary-button">Start Working on This Task</button>
+      </div>
+    </div>
+    <div class="background-pattern"></div>
+  </div>
+
+  <!-- Task Execution Page -->
+  <div id="taskExecutionPage" class="page" style="display: none">
+    <canvas class="interactive-background"></canvas>
+    <div class="execution-header">
+      <h1>Do Way More</h1>
+      <button id="backToDashboard" class="secondary-button">Back to Dashboard</button>
+      <button id="settingsButton" class="secondary-button">Settings</button>
+    </div>
+    
+    <div class="execution-grid">
+      <!-- File Manager Panel -->
+      <div class="file-manager-panel">
+        <h2>Project Files</h2>
+        <button id="selectFolder" class="secondary-button">Select Project Folder</button>
+        <p class="folder-path">Current folder: <span id="folderPath">None selected</span></p>
+        
+        <div id="fileList" class="file-explorer"></div>
+        
+        <div class="file-actions">
+          <button id="refreshFiles" class="small-button">Refresh</button>
+          <button id="openInFinder" class="small-button">Open in Finder</button>
+          <button id="deleteFile" class="small-button danger">Delete</button>
+        </div>
+      </div>
+      
+      <!-- Todo List Panel -->
+      <div class="todo-panel">
+        <h2>To-Do List</h2>
+        <div id="todoList" class="todo-list"></div>
+        
+        <div id="currentTodoDetail" class="current-todo-detail">
+          <h3>Current Task</h3>
+          <div id="currentTodo" class="current-todo"></div>
+          
+          <h4>Task Progress</h4>
+          <div id="completedTodos" class="completed-todos"></div>
+          
+          <button id="completeTodo" class="primary-button">Complete Current Task</button>
+        </div>
+      </div>
+      
+      <!-- Chat Panel -->
+      <div class="chat-panel">
+        <h2>AI Assistant</h2>
+        <div id="chatMessages" class="chat-messages"></div>
+        
+        <div class="chat-input">
+          <textarea id="todoMessageInput" placeholder="Ask for help with this task..."></textarea>
+          <button id="sendTodoMessage" class="primary-button">Send</button>
+        </div>
+      </div>
+    </div>
+    <div class="background-pattern"></div>
+  </div>
+
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button id="closeSettings" class="close-button">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-group">
+          <label for="settingsApiKey">OpenRouter API Key:</label>
+          <input type="password" id="settingsApiKey" placeholder="Enter your API key">
+        </div>
+        
+        <div class="settings-group">
+          <label for="modelInput">AI Model:</label>
+          <input type="text" id="modelInput" placeholder="e.g., deepseek/deepseek-chat-v3-0324:free">
+          <p class="help-text">Popular models: anthropic/claude-3-haiku:free, google/gemini-2.0-flash-thinking-exp:free, meta-llama/llama-3-70b-instruct:free</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="saveSettings" class="primary-button">Save Settings</button>
+        <button id="closeModalBottom" class="secondary-button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- File Sidebar -->
+  <div id="fileSidebar" class="file-sidebar">
+    <div class="sidebar-header">
+      <h3>Files</h3>
+      <button id="closeSidebar" class="close-button">×</button>
+    </div>
+    <div id="fileUploadArea" class="file-upload-area">
+      <p>Drop files here or</p>
+      <button id="fileUploadButton" class="primary-button">Select Files</button>
+      <input type="file" id="fileInput" multiple style="display: none;">
+    </div>
+    <div id="fileList" class="file-list">
+      <!-- Files will be listed here -->
+    </div>
+  </div>
+
+  <button id="toggleFileSidebar" class="sidebar-toggle">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M4 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/>
+      <path d="M6 5.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zM6 8a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 6 8zm0 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5z"/>
+    </svg>
+    Files
+  </button>
+
+  <script type="module" src="src/renderer/index.js"></script>
+</body>
+</html>
