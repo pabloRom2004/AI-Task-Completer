@@ -1,23 +1,39 @@
 import { setupInteractiveBackground } from '../background/interactiveBackground.js';
 import { initPlaceholderAnimation } from './placeholderAnimation.js';
 import { initSettingsUI } from './ui/settingsUI.js';
+import { initClarificationUI } from './ui/clarificationUI.js';
+import { initContextUI } from './ui/contextUI.js';
+import { initTodoUI } from './ui/todoUI.js';
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize UI components
     initializeUI();
 
-    setupInteractiveBackground();
+    duplicateBackgroundCanvas();
 
     // Set up event listeners
     setupEventListeners();
 
-    // Initialize settings UI
     initSettingsUI();
+    initClarificationUI();
+    initContextUI();
+    initTodoUI();
 
     // Console log app info from preload
     console.log('App info:', window.electronAPI.getAppInfo());
 });
+
+function duplicateBackgroundCanvas() {
+    const originalCanvas = document.getElementById('bgCanvas');
+    const clarificationCanvas = document.getElementById('clarificationBgCanvas');
+    const executionCanvas = document.getElementById('executionBgCanvas');
+
+    if (originalCanvas && clarificationCanvas && executionCanvas) {
+        // Make sure all canvases use the same setup
+        setupInteractiveBackground();
+    }
+}
 
 /**
  * Initialize UI components and default state
@@ -53,10 +69,42 @@ function setupEventListeners() {
  */
 function setupTaskEntryListeners() {
     const startTaskButton = document.getElementById('startTaskEntry');
+    const testPromptButton = document.getElementById('testPromptButton');
+    const initialTaskDescription = document.getElementById('initialTaskDescription');
+    const taskEntryPage = document.getElementById('taskEntryPage');
+    const clarificationPage = document.getElementById('taskClarificationPage');
 
+    // In your setupTaskEntryListeners function:
     startTaskButton.addEventListener('click', () => {
-        console.log('Start task button clicked');
-        // Will implement navigation to clarification page later
+        const taskText = initialTaskDescription.value.trim();
+
+        if (!taskText) {
+            alert('Please enter a task description before continuing.');
+            return;
+        }
+
+        // Transition to clarification page with loading state
+        taskEntryPage.style.display = 'none';
+        clarificationPage.style.display = 'flex';
+
+        // Show loading state before API call
+        const questionContainer = document.getElementById('questionContainer');
+        questionContainer.classList.add('loading');
+
+        // Reset progress bar
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        if (progressFill) progressFill.style.width = '0%';
+        if (progressText) progressText.textContent = 'Preparing questions...';
+
+        // Trigger clarification process
+        const event = new CustomEvent('taskClarificationStart', {
+            detail: {
+                taskDescription: taskText
+            }
+        });
+
+        document.dispatchEvent(event);
     });
 }
 

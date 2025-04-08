@@ -30,7 +30,7 @@
     <div class="background-pattern"></div>
   </div>
 
-  <!-- Settings Modal (included just for UI completeness) -->
+  <!-- Settings Modal -->
   <div id="settingsModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -48,155 +48,88 @@
           <input type="text" id="modelInput" placeholder="e.g., deepseek/deepseek-chat-v3-0324:free">
         </div>
       </div>
+      <label class="checkbox-label">
+        <input type="checkbox" id="testModeToggle">
+        Test Mode (Use pre-defined responses)
+      </label>
+      <p class="help-text">Enable to use simulated responses instead of calling the API</p>
       <div class="modal-footer">
         <button id="closeModalBottom" class="secondary-button">Close</button>
+        <button id="viewLogsButton" class="secondary-button">View API Logs</button>
       </div>
     </div>
   </div>
 
-  <!-- Project Manager Sidebar -->
-  <div id="projectSidebar" class="project-sidebar" style="display: none;">
-    <div class="sidebar-header">
-      <h3>Projects</h3>
-      <button id="closeSidebar" class="close-button">&times;</button>
-    </div>
-
-    <div class="project-list-container">
-      <div id="projectList" class="project-list">
-        <!-- Projects will be listed here dynamically -->
-        <div class="empty-message">No projects yet</div>
+  <!-- Global Context Modal -->
+  <div id="contextModal" class="modal">
+    <div class="modal-content context-modal-content">
+      <div class="modal-header">
+        <h2>Global Context</h2>
+        <button id="closeContextBtn" class="close-button">&times;</button>
       </div>
-    </div>
-
-    <div class="project-create-area">
-      <button id="newProject" class="primary-button">New Project</button>
-    </div>
-  </div>
-
-  <!-- Project sidebar toggle button (fixed position) -->
-  <button id="toggleProjectSidebar" class="sidebar-toggle" style="display: none;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-      <path
-        d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 12V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z" />
-      <path d="M4.5 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5v-2z" />
-      <path d="M2 10.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-1z" />
-    </svg>
-    Projects
-  </button>
-
-  <!-- File Manager Sidebar -->
-  <div id="fileSidebar" class="file-sidebar" style="display: none;">
-    <div class="sidebar-header">
-      <h3>Files</h3>
-      <button id="closeFileSidebar" class="close-button">&times;</button>
-    </div>
-
-    <div class="file-upload-area">
-      <p>Add files to your project</p>
-      <div class="upload-buttons">
-        <button id="browseFiles" class="secondary-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="12" y1="18" x2="12" y2="12"></line>
-            <line x1="9" y1="15" x2="15" y2="15"></line>
-          </svg>
-          Add Files
-        </button>
-        <button id="browseFolders" class="secondary-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon">
-            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-          </svg>
-          Add Folder
-        </button>
+      <div class="modal-body">
+        <pre id="contextContent" class="context-content"></pre>
       </div>
-      <input type="file" id="fileInput" multiple style="display: none;">
-      <input type="file" id="folderInput" webkitdirectory directory multiple style="display: none;">
-    </div>
-
-    <div class="file-grid-container">
-      <div id="fileGrid" class="file-grid">
-        <!-- Files will be displayed here dynamically -->
-        <div class="empty-message">No files yet</div>
+      <div class="modal-footer">
+        <button id="closeContextBottomBtn" class="secondary-button">Close</button>
       </div>
-    </div>
-  </div>
-
-  <!-- File sidebar toggle button (fixed position - positioned above project button) -->
-  <button id="toggleFileSidebar" class="sidebar-toggle file-toggle" style="display: none;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-      <path
-        d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4z" />
-      <path
-        d="M13 4H3a1 1 0 0 0-1 1v1h12V5a1 1 0 0 0-1-1zm0 3H3a1 1 0 0 0-1 1v1h12V8a1 1 0 0 0-1-1zm0 3H3a1 1 0 0 0-1 1v1h12v-1a1 1 0 0 0-1-1z" />
-    </svg>
-    Files
-  </button>
-
-  <!-- Drag and drop overlay (spans the entire window) -->
-  <div id="dragDropOverlay" class="drag-drop-overlay" style="display: none;">
-    <div class="overlay-content">
-      <div class="upload-icon large">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="17 8 12 3 7 8"></polyline>
-          <line x1="12" y1="3" x2="12" y2="15"></line>
-        </svg>
-      </div>
-      <p>Drop files here</p>
-      <p class="overlay-note">Use the Add Folder button for folders</p>
     </div>
   </div>
 
   <!-- Task Clarification Page (hidden by default) -->
-  <div id="taskClarificationPage" class="page" style="display: flex;">
+  <div id="taskClarificationPage" class="page">
+    <canvas id="clarificationBgCanvas" class="interactive-background"></canvas>
+    <div class="background-pattern"></div>
     <div class="centered-content">
-      <h2>Let's clarify your task</h2>
+      <h2 id="clarificationTitle" class="clarification-title">Let's clarify your task</h2>
       <div id="questionContainer" class="question-container">
-        <h3 id="questionTitle">Question</h3>
-        <p id="questionText">Loading question...</p>
-        <textarea id="questionAnswer" class="answer-input" placeholder="Your answer..."></textarea>
+        <h3 id="questionTitle">Analyzing your task...</h3>
+        <p id="questionText">Please wait while we prepare relevant questions.</p>
+        <textarea id="questionAnswer" class="answer-input" placeholder="Enter your answer here..."></textarea>
         <div class="button-group">
-          <button id="prevQuestionBtn" class="secondary-button" disabled>Previous</button>
-          <button id="nextQuestionBtn" class="primary-button">Next</button>
+          <div class="question-progress">
+            <div class="progress-bar">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <p id="progressText" class="progress-text">Question 1/3</p>
+          </div>
+          <button id="nextQuestionBtn" class="primary-button">Submit Answer</button>
         </div>
-      </div>
-      <div id="clarificationProgress" class="progress-container">
-        <div class="progress-bar">
-          <div id="progressFill" class="progress-fill"></div>
-        </div>
-        <p id="progressText">Question 1/3</p>
       </div>
     </div>
   </div>
 
   <!-- To-do List Execution Page (hidden by default) -->
-  <div id="todoExecutionPage" class="page" style="display: flex;">
+  <div id="todoExecutionPage" class="page">
+    <canvas id="executionBgCanvas" class="interactive-background"></canvas>
+    <div class="background-pattern"></div>
     <div class="todo-execution-container">
       <div class="todo-list-panel">
         <h2>Task Breakdown</h2>
         <ul id="todoList" class="todo-list">
-          <!-- To-do items will be added here dynamically -->
           <li class="todo-item loading">Loading tasks...</li>
         </ul>
+        <button id="backToMenuBtn" class="secondary-button back-button">Back to Main Menu</button>
       </div>
       <div class="conversation-panel">
         <div id="currentTaskTitle" class="task-title">Select a task</div>
         <div id="conversationContainer" class="conversation-container">
-          <!-- Messages will appear here -->
           <div class="empty-conversation">Select a task to begin</div>
+        </div>
+        <div class="task-description-panel" id="taskDescriptionPanel">
+          <p id="currentTaskDescription">Task description will appear here.</p>
         </div>
         <div class="message-input-container">
           <textarea id="messageInput" placeholder="Type your message..." disabled></textarea>
-          <button id="sendMessageBtn" class="primary-button" disabled>Send</button>
         </div>
-        <div class="task-actions">
-          <button id="completeTaskBtn" class="success-button" disabled>Mark Task Complete</button>
+        <div class="action-buttons">
+          <button id="completeTaskBtn" class="gradient-button" disabled>Mark Task Complete</button>
+          <button id="sendMessageBtn" class="gradient-button" disabled>Send</button>
         </div>
       </div>
+    </div>
+    <div class="context-btn-container">
+      <button id="viewContextBtn" class="secondary-button">View Context</button>
     </div>
   </div>
 
