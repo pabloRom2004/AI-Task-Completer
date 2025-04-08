@@ -1,5 +1,3 @@
-// src/renderer/interactive-background.js
-
 /**
  * Sets up the interactive background with white and grey dots that cluster
  * and are repelled by mouse movement
@@ -127,7 +125,7 @@ export function setupInteractiveBackground() {
           const ghostDistance = Math.sqrt(dxGhost * dxGhost + dyGhost * dyGhost);
           
           // Mouse repulsion effect - inversed attraction
-          const maxRepulsionDistance = 150; // Maximum distance for repulsion
+          const maxRepulsionDistance = 300; // Maximum distance for repulsion
           
           if (mouseDistance < maxRepulsionDistance) {
             // Calculate repulsion force - stronger as mouse gets closer
@@ -198,7 +196,7 @@ export function setupInteractiveBackground() {
       function initParticles() {
         particles = [];
         // More particles for a denser effect
-        const particleCount = Math.min(Math.floor((width * height) / 2000), 300);
+        const particleCount = Math.min(Math.floor((width * height) / 2000), 500);
         
         for (let i = 0; i < particleCount; i++) {
           particles.push(new Particle(true));

@@ -1,42 +1,30 @@
 {
     "name": "do-way-more",
-    "version": "1.0.0",
-    "description": "AI task execution app",
-    "main": "src/main/index.js",
+    "version": "0.1.0",
+    "description": "AI Task Execution System",
+    "main": "main.js",
     "scripts": {
-        "start": "electron .",
-        "build": "electron-builder"
+      "start": "electron .",
+      "dev": "electron . --dev",
+      "build": "electron-builder"
     },
-    "dependencies": {
-        "openai": "^4.90.0"
-    },
+    "author": "Pablo Romero",
+    "license": "MIT",
     "devDependencies": {
-        "electron": "^29.4.6",
-        "electron-builder": "^24.13.3"
+      "electron": "^29.1.4",
+      "electron-builder": "^24.13.1"
     },
     "build": {
-        "appId": "com.example.aitaskapp",
-        "productName": "AI Task App",
-        "directories": {
-            "output": "dist"
-        },
-        "win": {
-            "target": "nsis"
-        },
-        "mac": {
-            "target": "dmg"
-        }
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/pabloRom2004/AI-Task-Completer.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "type": "commonjs",
-    "bugs": {
-        "url": "https://github.com/pabloRom2004/AI-Task-Completer/issues"
-    },
-    "homepage": "https://github.com/pabloRom2004/AI-Task-Completer#readme"
-}
+      "appId": "com.pabloromero.dowaymore",
+      "productName": "Do Way More",
+      "mac": {
+        "category": "public.app-category.productivity"
+      },
+      "win": {
+        "target": "nsis"
+      },
+      "linux": {
+        "target": "AppImage"
+      }
+    }
+  }

@@ -1,0 +1,17 @@
+IMPORTANT INSTRUCTIONS FOR YOUR RESPONSE:
+
+1. Do your thinking in plain text first
+2. End your response with EXACTLY ONE of these formats:
+
+To request files:
+{"output": "Files", "files": ["filename.ext"]}
+
+To request multiple files at once (You can open as many or as few files as you want, just be mindful of your context window size):
+{"output": "Files", "files": ["filename1.ext", "filename2.ext", "filename3.ext"]}
+
+To submit your answer:
+{"output": "Answer", "content": "YOUR ANSWER HERE"}
+
+DO NOT create any other JSON structures. ONLY use one of these two formats at the END of your response.
+
+YOUR TASK:

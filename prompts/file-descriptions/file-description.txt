@@ -45,5 +45,7 @@ Format your summary to maximize clarity and usability, using structured formats 
 
 Remember: The goal is to summarize how this file is USED, not everything it CONTAINS. Focus on what someone would need to know to effectively work with this file in relation to other files in the system.
 
+Do not extend the complexity of the summarization anymore than it needs to, only include information that is actually useful and don't make it too long unless the file needs it. You can make it a single sentence if you want to.
+
 File Content:
 {fileContent}
