@@ -4,6 +4,7 @@
 
 import { clarificationPromptTemplate } from '../data/clarificationPrompt.js';
 import { getSetting } from './settingsService.js';
+import { isTestModeEnabled, getSimulatedClarificationQuestions, resetQuestions } from './testMode.js';
 
 // In-memory storage for current clarification session
 let currentConversation = [];
@@ -24,6 +25,10 @@ export function resetClarification() {
 export function initClarification(task) {
     resetClarification();
     currentTask = task;
+
+    if (typeof resetQuestions === 'function') {
+        resetQuestions();
+    }
 }
 
 /**
@@ -93,6 +98,12 @@ function extractJSON(response) {
  */
 export async function getQuestions() {
     try {
+        // Check if test mode is enabled
+        if (isTestModeEnabled()) {
+            console.log('Test mode enabled, using simulated clarification questions');
+            return getSimulatedClarificationQuestions();
+        }
+        
         const apiKey = await getSetting('apiKey');
         const model = await getSetting('model', 'deepseek/deepseek-chat-v3-0324:free');
 

@@ -55,12 +55,12 @@
       <p class="help-text">Enable to use simulated responses instead of calling the API</p>
       <div class="modal-footer">
         <button id="closeModalBottom" class="secondary-button">Close</button>
-        <button id="viewLogsButton" class="secondary-button">View API Logs</button>
+        <!-- <button id="viewLogsButton" class="secondary-button">View API Logs</button> -->
       </div>
     </div>
   </div>
 
-  <!-- Global Context Modal -->
+  <!-- Global Context Modal - Centered positioning -->
   <div id="contextModal" class="modal">
     <div class="modal-content context-modal-content">
       <div class="modal-header">
@@ -69,9 +69,6 @@
       </div>
       <div class="modal-body">
         <pre id="contextContent" class="context-content"></pre>
-      </div>
-      <div class="modal-footer">
-        <button id="closeContextBottomBtn" class="secondary-button">Close</button>
       </div>
     </div>
   </div>
@@ -99,26 +96,42 @@
     </div>
   </div>
 
-  <!-- To-do List Execution Page (hidden by default) -->
+  <!-- To-do List Execution Page (hidden by default) - RESTRUCTURED -->
   <div id="todoExecutionPage" class="page">
     <canvas id="executionBgCanvas" class="interactive-background"></canvas>
     <div class="background-pattern"></div>
     <div class="todo-execution-container">
-      <div class="todo-list-panel">
-        <h2>Task Breakdown</h2>
-        <ul id="todoList" class="todo-list">
-          <li class="todo-item loading">Loading tasks...</li>
-        </ul>
-        <button id="backToMenuBtn" class="secondary-button back-button">Back to Main Menu</button>
+      <!-- Todo Panel Wrapper with List and Buttons -->
+      <div class="todo-panel-wrapper">
+        <div class="todo-list-panel">
+          <h2>Task Breakdown</h2>
+          <ul id="todoList" class="todo-list">
+            <li class="todo-item loading">Loading tasks...</li>
+          </ul>
+        </div>
+        <!-- Buttons stacked below the todo list panel -->
+        <div class="todo-panel-buttons">
+          <button id="viewContextBtn" class="secondary-button">View Context</button>
+          <button id="backToMenuBtn" class="secondary-button">Back to Main Menu</button>
+        </div>
       </div>
+      
+      <!-- Conversation Panel with improved header structure -->
       <div class="conversation-panel">
-        <div id="currentTaskTitle" class="task-title">Select a task</div>
+        <!-- Header Section with Title and Description -->
+        <div class="conversation-header">
+          <div id="currentTaskTitle" class="task-title-overall">Select a task</div>
+          <div class="task-description-panel" id="taskDescriptionPanel">
+            <p id="currentTaskDescription">Task description will appear here.</p>
+          </div>
+        </div>
+        
+        <!-- Conversation Content -->
         <div id="conversationContainer" class="conversation-container">
           <div class="empty-conversation">Select a task to begin</div>
         </div>
-        <div class="task-description-panel" id="taskDescriptionPanel">
-          <p id="currentTaskDescription">Task description will appear here.</p>
-        </div>
+        
+        <!-- Input Section -->
         <div class="message-input-container">
           <textarea id="messageInput" placeholder="Type your message..." disabled></textarea>
         </div>
@@ -127,9 +140,6 @@
           <button id="sendMessageBtn" class="gradient-button" disabled>Send</button>
         </div>
       </div>
-    </div>
-    <div class="context-btn-container">
-      <button id="viewContextBtn" class="secondary-button">View Context</button>
     </div>
   </div>
 

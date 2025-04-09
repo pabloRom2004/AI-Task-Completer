@@ -4,18 +4,26 @@
 
 import { contextPromptTemplate } from '../data/contextPrompt.js';
 import { getSetting } from './settingsService.js';
+import { isTestModeEnabled, getSimulatedGlobalContext } from './testMode.js';
 
 // Cache for the current global context
 let currentGlobalContext = '';
 
 /**
- * Generate a global context document from task and clarification
- * @param {string} taskDescription - The original task description
- * @param {Array} clarificationConversation - The clarification Q&A pairs
- * @returns {Promise<string>} The generated global context
+ * Generate the global context from clarification information
+ * @param {string} taskDescription - The user's task description
+ * @param {Array} clarificationConversation - The clarification conversation
+ * @returns {Promise<Object>} Object containing success status and context
  */
 export async function generateGlobalContext(taskDescription, clarificationConversation) {
   try {
+    // Check if test mode is enabled
+    if (isTestModeEnabled()) {
+      console.log('Test mode enabled, using simulated global context');
+      currentGlobalContext = getSimulatedGlobalContext()
+      return currentGlobalContext;
+    }
+    
     // Format the clarification conversation
     const formattedConversation = formatClarificationConversation(clarificationConversation);
     

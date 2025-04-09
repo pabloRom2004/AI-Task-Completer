@@ -5,6 +5,7 @@
 import { taskBreakdownPromptTemplate } from '../data/taskBreakdownPrompt.js';
 import { getCurrentGlobalContext } from './contextService.js';
 import { getSetting } from './settingsService.js';
+import { isTestModeEnabled, getSimulatedTaskBreakdown } from './testMode.js';
 
 // Cache for current tasks data
 let currentTasksData = null;
@@ -15,6 +16,13 @@ let currentTasksData = null;
  */
 export async function generateTaskBreakdown() {
   try {
+
+    if (isTestModeEnabled()) {
+      console.log('Test mode enabled, using simulated task breakdown');
+      currentTasksData = getSimulatedTaskBreakdown()
+      return currentTasksData;
+    }
+
     // Get the global context
     const globalContext = getCurrentGlobalContext();
     if (!globalContext) {
@@ -40,7 +48,7 @@ export async function generateTaskBreakdown() {
       apiKey,
       model,
       prompt,
-      temperature: 0.7,
+      temperature: 0.0,
       maxTokens: 3000 // Increased token limit for larger task lists
     });
     

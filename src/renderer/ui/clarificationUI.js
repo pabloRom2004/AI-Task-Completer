@@ -460,7 +460,7 @@ async function finishClarification() {
         // Generate global context
         const { generateGlobalContext } = await import('../services/contextService.js');
         const context = await generateGlobalContext(state.task, state.conversation);
-
+        
         // Dispatch context event
         document.dispatchEvent(new CustomEvent('contextUpdated', { detail: { context } }));
 

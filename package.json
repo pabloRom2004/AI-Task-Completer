@@ -4,27 +4,31 @@
     "description": "AI Task Execution System",
     "main": "main.js",
     "scripts": {
-      "start": "electron .",
-      "dev": "electron . --dev",
-      "build": "electron-builder"
+        "start": "electron .",
+        "dev": "electron . --dev",
+        "build": "electron-builder"
     },
     "author": "Pablo Romero",
     "license": "MIT",
     "devDependencies": {
-      "electron": "^29.1.4",
-      "electron-builder": "^24.13.1"
+        "electron": "^29.1.4",
+        "electron-builder": "^24.13.1"
     },
     "build": {
-      "appId": "com.pabloromero.dowaymore",
-      "productName": "Do Way More",
-      "mac": {
-        "category": "public.app-category.productivity"
-      },
-      "win": {
-        "target": "nsis"
-      },
-      "linux": {
-        "target": "AppImage"
-      }
+        "appId": "com.pabloromero.dowaymore",
+        "productName": "Do Way More",
+        "mac": {
+            "category": "public.app-category.productivity"
+        },
+        "win": {
+            "target": "nsis"
+        },
+        "linux": {
+            "target": "AppImage"
+        }
+    },
+    "dependencies": {
+        "marked": "^15.0.8",
+        "openai": "^4.93.0"
     }
-  }
+}

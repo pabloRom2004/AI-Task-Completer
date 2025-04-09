@@ -327,10 +327,14 @@ button {
   border-top: 3px solid var(--gradient-2);
 }
 
+/* Fix Global Context Modal positioning to be centered */
 .context-modal-content {
   max-width: 800px;
   width: 80%;
   max-height: 80vh;
+  top: 50%;
+  transform: translateY(10%);
+  margin: 0 auto;
 }
 
 .context-content {
@@ -343,13 +347,6 @@ button {
   border: 1px solid #333;
   font-family: 'Figtree', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-primary);
-}
-
-.context-btn-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10;
 }
 
 @keyframes modalSlideDown {
@@ -494,7 +491,7 @@ textarea::placeholder {
 
 /* Task Clarification Page - UPDATED */
 .question-container {
-  background-color: rgba(31, 31, 31, 0.25); /* Semi-transparent background */
+  background-color: rgba(31, 31, 31, 0.50); /* Semi-transparent background */
   padding: 2.5rem;
   border-radius: 8px;
   margin-bottom: 2rem;
@@ -563,12 +560,6 @@ textarea::placeholder {
   color: #626262;
 }
 
-.question-container .button-group {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-
 .question-progress {
   display: flex;
   flex-direction: column;
@@ -582,6 +573,7 @@ textarea::placeholder {
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 0.5rem;
+  max-width: 200px;
 }
 
 .question-progress .progress-fill {
@@ -591,6 +583,7 @@ textarea::placeholder {
   animation: gradientShift 15s ease infinite;
   width: 33.33%; /* Initial state - will be set by JS */
   transition: width 0.3s ease;
+  max-width: 200px;
 }
 
 .question-progress .progress-text {
@@ -684,32 +677,52 @@ textarea::placeholder {
   gap: 2rem;
 }
 
-/* Task List Panel - Fixed width and non-scrollable */
+/* Todo Panel Wrapper to contain both the list and buttons */
+.todo-panel-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 375px;
+  gap: 1rem;
+}
+
+/* Fix Todo List Panel to focus just on the list */
 .todo-list-panel {
-  width: 375px; /* 25% wider than 300px */
+  width: 100%;
   background-color: rgba(31, 31, 31, 0.75);
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1.5rem 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   box-shadow: 
     0 0 0 2px rgba(255, 255, 255, 0.05),
     0 10px 20px rgba(0, 0, 0, 0.3),
     0 0 15px rgba(153, 102, 255, 0.4);
-  position: relative; /* For back button positioning */
+  height: calc(100vh - 12rem); /* Fixed height */
+}
+
+.todo-list-panel h2 {
+  margin-bottom: 0.0rem;
 }
 
 .todo-list {
   list-style-type: none;
   padding: 0;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   overflow-y: auto;
-  flex-grow: 1;
+  overflow-x: hidden;
+  height: calc(100% - 3rem); /* Height minus the heading */
+  max-height: 100%;
+  scrollbar-width: thin; /* For Firefox */
+}
+
+/* Fix scrollbar white square */
+.todo-list::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 .todo-section-header {
   font-weight: bold;
-  padding: 10px 0;
+  padding: 5px 0;
   color: var(--text-primary);
   font-size: 1.1rem;
   margin-top: 15px;
@@ -727,16 +740,35 @@ textarea::placeholder {
   text-align: left;
   align-items: center;
   font-size: 0.9rem;
+  line-height: 1.2; /* Add to make items more compact */
 }
 
 .todo-item:hover {
   transform: translateX(5px);
 }
 
+/* Change to-do list highlight to vertical gradient */
 .todo-item.selected {
-  border-left: 3px solid var(--gradient-2);
   padding-left: 10px;
-  background: linear-gradient(90deg, rgba(255, 51, 102, 0.1), transparent);
+  background: linear-gradient(90deg, 
+    rgba(255, 140, 0, 0.1),
+    rgba(255, 51, 102, 0.1), 
+    rgba(138, 43, 226, 0.1),
+    transparent);
+  position: relative;
+}
+
+.todo-item.selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: linear-gradient(to bottom, 
+    var(--gradient-1),
+    var(--gradient-2), 
+    var(--gradient-3));
 }
 
 .todo-item.completed {
@@ -774,6 +806,8 @@ textarea::placeholder {
 
 .task-content {
   flex: 1;
+  overflow: hidden; /* Prevent content from causing horizontal expansion */
+  text-overflow: ellipsis;
 }
 
 .task-description {
@@ -781,13 +815,19 @@ textarea::placeholder {
   color: #b3b3b3;
 }
 
-/* Task Description Panel */
-.task-description-panel {
-  padding: 1rem 1.5rem;
-  background-color: rgba(40, 40, 40, 0.7);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+/* Stacked buttons below todo panel */
+.todo-panel-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
 }
 
+.todo-panel-buttons button {
+  width: 100%;
+}
+
+/* Enhanced Conversation Header */
 .conversation-panel {
   flex: 1;
   display: flex;
@@ -798,11 +838,36 @@ textarea::placeholder {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
+.conversation-header {
+  background-color: rgba(40, 40, 40, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .task-title {
-  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.task-title-overall {
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1.2rem 1.5rem 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+.task-description-panel {
+  padding: 0.5rem 1.5rem 1rem;
+  border-top: none;
+  background-color: rgba(40, 40, 40, 0.9);
+}
+
+#currentTaskDescription {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
 }
 
 .conversation-container {
@@ -883,21 +948,6 @@ textarea::placeholder {
   outline: none;
 }
 
-#messageInput:focus {
-  box-shadow: 
-    0 0 0 2px rgba(255, 255, 255, 0.1),
-    0 5px 15px rgba(0, 0, 0, 0.3),
-    0 0 15px rgba(255, 51, 102, 0.3);
-  outline: none;
-}
-
-.task-actions {
-  padding: 0.5rem 1rem 1rem;
-  background-color: rgba(37, 37, 37, 0.8);
-  display: flex;
-  justify-content: flex-end;
-}
-
 /* Action Buttons Container */
 .action-buttons {
   display: flex;
@@ -905,30 +955,6 @@ textarea::placeholder {
   padding: 1rem 1.5rem 1.5rem;
   background-color: rgba(37, 37, 37, 0.7);
   gap: 1rem;
-}
-
-.success-button {
-  background: linear-gradient(270deg, #00c853, #69f0ae);
-  background-size: 300% 100%;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  animation: gradientShift 15s ease infinite;
-}
-
-.success-button:hover {
-  transform: translateY(-2px);
-  background-size: 200% 100%;
-  animation: gradientShift 8s ease infinite;
-}
-
-.empty-conversation {
-  color: var(--text-secondary);
-  text-align: center;
-  margin: auto;
-  font-style: italic;
 }
 
 .gradient-button {
@@ -962,25 +988,96 @@ textarea::placeholder {
   box-shadow: none;
 }
 
-/* Back to Main Menu Button */
-.back-button {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  right: 1rem;
-  margin-top: 1rem;
-}
-
-/* Add back button for clarification page too */
-.clarification-back-button {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-#currentTaskDescription {
-  margin: 0;
+.empty-conversation {
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  text-align: center;
+  margin: auto;
+  font-style: italic;
+}
+
+.code-block {
+  margin: 10px 0;
+  background: #2d2d2d; /* Dark background */
+  border: 1px solid #444;
+  border-radius: 3px;
+  color: #e6e6e6; /* Light text */
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: #444; /* Darker header background */
+  border-bottom: 1px solid #555;
+}
+
+.code-language {
+  font-family: monospace;
+  font-size: 12px;
+  color: #ccc; /* Light gray text */
+}
+
+.copy-code-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: #555;
+  border: 1px solid #666;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #fff; /* White text */
+  transition: all 0.2s ease;
+}
+
+.copy-code-button:hover {
+  background: #666;
+}
+
+.copy-code-button svg {
+  width: 14px;
+  height: 14px;
+  stroke: #fff; /* White icon */
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 10px;
+  overflow-x: auto;
+  background: transparent;
+}
+
+.code-block code {
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+  background: transparent;
+  padding: 0;
+  color: #e6e6e6; /* Light text */
+}
+
+/* Basic markdown styles */
+.message-content h1, .message-content h2, .message-content h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+/* Inline code styling - different from code blocks */
+.message-content code:not(.code-block code) {
+  background: #2d2d2d;
+  color: #e6e6e6;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.message-content a {
+  color: #58a6ff; /* Brighter blue for dark background */
+  text-decoration: none;
+}
+
+.message-content a:hover {
+  text-decoration: underline;
 }
