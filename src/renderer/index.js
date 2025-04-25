@@ -4,6 +4,8 @@ import { initSettingsUI } from './ui/settingsUI.js';
 import { initClarificationUI } from './ui/clarificationUI.js';
 import { initContextUI } from './ui/contextUI.js';
 import { initTodoUI } from './ui/todoUI.js';
+import folderSelectionUI from './ui/folderSelectionUI.js';
+import fileService from './services/fileService.js';
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {

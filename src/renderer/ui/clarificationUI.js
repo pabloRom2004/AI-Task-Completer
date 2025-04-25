@@ -9,6 +9,9 @@ import {
     getClarificationState
 } from '../services/clarificationService.js';
 
+import folderSelectionUI from '../ui/folderSelectionUI.js';
+import fileService from '../services/fileService.js';
+
 // State management
 let currentQuestions = [];
 let currentQuestionIndex = 0;
@@ -423,6 +426,14 @@ function saveCurrentAnswer() {
     }
 }
 
+async function initTodoPage() {
+    // Reset the project folder to force selection every time
+    fileService.resetProjectFolder();
+    
+    // Show folder selection modal
+    await folderSelectionUI.showModal();
+  }
+
 /**
  * Complete the clarification process and move to next phase
  */
@@ -456,6 +467,8 @@ async function finishClarification() {
             loadingText.textContent = 'Generating project context and task breakdown...';
             questionContainer.appendChild(loadingText);
         }
+
+        await initTodoPage();
 
         // Generate global context
         const { generateGlobalContext } = await import('../services/contextService.js');

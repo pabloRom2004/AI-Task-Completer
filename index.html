@@ -73,6 +73,24 @@
     </div>
   </div>
 
+    <!-- Project Folder Selection Modal -->
+  <div id="folderSelectionModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Select Project Folder</h2>
+      </div>
+      <div class="modal-body">
+        <p>Please select a folder for your project. All file operations will be restricted to this folder.</p>
+        <div class="selected-folder-display">
+          <p id="selectedFolderPath">Select Project Folder</p>
+        </div>
+        <div class="button-group" style="margin-top: 20px;">
+          <button id="selectFolderBtn" class="primary-button">Choose Folder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Task Clarification Page (hidden by default) -->
   <div id="taskClarificationPage" class="page">
     <canvas id="clarificationBgCanvas" class="interactive-background"></canvas>

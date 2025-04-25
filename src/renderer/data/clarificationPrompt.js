@@ -63,6 +63,22 @@ Based on your analysis, determine ONLY what you genuinely don't know that would 
 2. Is fundamental to understanding the user's real needs
 3. Cannot be reasonably assumed based on the information provided
 
+CRITICAL GUIDELINES:
+- Focus ONLY on information that would BLOCK project progress without an answer
+- Ask about FUNDAMENTAL aspects that would meaningfully change project direction
+- AVOID overly specific questions about details that can be adjusted later (like exact parameter values, variable names, etc.)
+- DO NOT ask for specifics that a skilled implementer could reasonably determine during implementation
+
+Examples of GOOD questions:
+- "What platform is this application targeting?" (fundamentally changes implementation)
+- "Is this a multiplayer or single-player game?" (affects core architecture)
+- "Should the system support multiple languages?" (impacts base design)
+
+Examples of BAD questions to avoid:
+- "What should the player's movement speed be?" (implementation detail)
+- "What should we name the main class?" (trivial detail)
+- "What color should the UI elements be?" (unless visual design is central to the task)
+
 Ask 1-3 essential questions. If the task is already clear and well-defined, you may not need to ask any questions at all. Set needsMoreQuestions to false in that case.
 
 IMPORTANT: 
@@ -84,10 +100,11 @@ After your thinking, provide your response in <structured_output> using valid JS
 }
 
 Each question should:
-- Address a specific information gap you genuinely need to understand
-- Be focused on both actionable information and open-ended exploration to surface the idea that the user has effectively
+- Address ONLY project-blocking information gaps that would prevent progress
+- Focus on fundamental aspects that would significantly change project direction
+- Avoid implementation details that can be reasonably determined during development
 - Be formatted as a direct question (not a statement)
-- Include a hint that provides examples of the type of answer expected (e.g., "Common game engines include Unity, Unreal, Godot, etc.", add more detail or less depending on the question, just be helpful with the hint)
+- Include a hint that provides examples of the type of answer expected
 
 The needsMoreQuestions field should be true if you need additional information after these questions are answered, or false if you believe you'll have enough information after these questions to proceed with the task.
 

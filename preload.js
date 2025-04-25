@@ -24,5 +24,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
     // Logs API
     logs: {
         getSessionPath: () => ipcRenderer.invoke('logs:getPath')
+    },
+    
+    // File system operations
+    files: {
+        selectFolder: () => ipcRenderer.invoke('files:selectFolder'),
+        getProjectFolder: () => ipcRenderer.invoke('files:getProjectFolder'),
+        readFile: (path) => ipcRenderer.invoke('files:readFile', path),
+        writeFile: (path, content) => ipcRenderer.invoke('files:writeFile', path, content),
+        listFiles: () => ipcRenderer.invoke('files:listFiles'),
+        openFile: (path) => ipcRenderer.invoke('files:openFile', path) // New method
     }
 });

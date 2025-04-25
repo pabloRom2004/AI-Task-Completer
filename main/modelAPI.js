@@ -4,6 +4,9 @@
 
 const { OpenAI } = require('openai');
 const logger = require('./logger');
+const fileRequestHandler = require('./fileRequestHandler');
+const fs = require('fs');
+const path = require('path');
 
 /**
  * Set up the model API handlers
@@ -16,7 +19,7 @@ function setupModelAPIHandlers(ipcMain) {
   
   ipcMain.handle('model:call', async (event, params) => {
     try {
-      const { apiKey, model, prompt, temperature = 0.7, maxTokens = 2000 } = params;
+      const { apiKey, model, prompt, temperature = 0.7, maxTokens = 2000, projectFolder } = params;
       
       // Validate required parameters
       if (!apiKey) {
@@ -56,6 +59,37 @@ function setupModelAPIHandlers(ipcMain) {
       } else {
         logger.debugLog('Using default DeepSeek API (no provider detected)');
         result = await callDeepSeekAPI(apiKey, model, prompt, temperature, maxTokens);
+      }
+      
+      // Process the response to check for file requests
+      if (result.success && result.text) {
+        const filePathsRequested = fileRequestHandler.detectFileRequest(result.text);
+        
+        // If file request is detected and project folder is set
+        if (filePathsRequested && projectFolder) {
+          logger.debugLog(`Processing file request for ${filePathsRequested.length} files`);
+          
+          // Get the file contents
+          const fileContents = await fileRequestHandler.processFileRequest(
+            filePathsRequested, 
+            projectFolder
+          );
+          
+          // Format file contents for adding to context
+          const formattedFileContents = fileRequestHandler.formatFileContents(fileContents);
+          
+          // Add the original AI response and the file contents as metadata
+          result.fileRequest = {
+            originalResponse: result.text,
+            requestedFiles: filePathsRequested,
+            fileContents: fileContents
+          };
+          
+          // Update the response text to include file contents
+          // Remove the file request JSON from the response
+          const cleanResponse = result.text.replace(/\{"files":\s*\[(.*?)\]\}/, '');
+          result.text = cleanResponse + formattedFileContents;
+        }
       }
       
       // Log the response

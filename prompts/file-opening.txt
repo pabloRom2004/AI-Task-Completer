@@ -1,17 +1,37 @@
 IMPORTANT INSTRUCTIONS FOR YOUR RESPONSE:
 
 1. Do your thinking in plain text first
-2. End your response with EXACTLY ONE of these formats:
+2. End your response with either to open a file:
 
 To request files:
-{"output": "Files", "files": ["filename.ext"]}
+{"files": ["filename.ext"]}
 
 To request multiple files at once (You can open as many or as few files as you want, just be mindful of your context window size):
-{"output": "Files", "files": ["filename1.ext", "filename2.ext", "filename3.ext"]}
+{"files": ["folder/anotherfolder/filename1.ext", "filename2.ext", "filename3.ext"]}
 
-To submit your answer:
-{"output": "Answer", "content": "YOUR ANSWER HERE"}
+You will also be able to open more files after this one, so you can open a file now, read it, then request another file, so you have the option of doing this sequentially or in parallel, whatever the task requires.
 
-DO NOT create any other JSON structures. ONLY use one of these two formats at the END of your response.
+3. To write files, use the following tag format in your response:
 
-YOUR TASK:
+<file>
+// File content goes here
+const example = "This is file content";
+function doSomething() {
+  return "Hello world";
+}
+</file><name:"path/to/output.js">
+
+You can include multiple file sections in a single response. The system will:
+- Write each file to the user's selected project folder
+- Replace the file content in the UI with a button linking to the file
+- Ensure all operations stay within the project folder for security
+
+4. Add detailed comments in your files
+
+Since each to-do item is a separate conversation, context is not preserved between them. Your comments in the files serve as the primary way to communicate details to future conversations. Include:
+- What the file does
+- Why implementation choices were made
+- What still needs to be done
+- How this file connects to others in the project
+
+This tagging system enables a clean UI experience for the user while preserving your ability to create and modify project files directly.

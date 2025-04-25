@@ -90,6 +90,15 @@ function extractJSON(response) {
       cleanResponse = response.replace(/```\n|\n```/g, '');
     }
     
+    // Fix common AI-generated JSON formatting issues:
+    // 1. Remove extra spaces before property names
+    cleanResponse = cleanResponse.replace(/" "(\w+)"/g, '"$1"');
+    // 2. Fix any double commas
+    cleanResponse = cleanResponse.replace(/,,/g, ',');
+    // 3. Remove trailing commas before closing brackets
+    cleanResponse = cleanResponse.replace(/,\s*\}/g, '}');
+    cleanResponse = cleanResponse.replace(/,\s*\]/g, ']');
+    
     // Try to find a JSON object in the text
     const jsonMatch = cleanResponse.match(/(\{[\s\S]*\})/);
     if (jsonMatch && jsonMatch[1]) {
@@ -100,6 +109,8 @@ function extractJSON(response) {
     return null;
   } catch (error) {
     console.error('Error parsing JSON response:', error);
+    // For debugging, log the full response or section with the error
+    console.debug('Problematic JSON:', response.substring(0, 500) + '...');
     return null;
   }
 }

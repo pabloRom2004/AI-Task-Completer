@@ -40,11 +40,36 @@ export async function initTodoUI() {
   // Set up event listeners
   setupEventListeners();
   
+  setupFileButtonHandlers();
+
   // Initialize code copy functionality for the conversation container
   markdownRenderer.setupCopyButtons(conversationContainer);
   
   // Listen for tasks generated event
   document.addEventListener('tasksGenerated', renderTaskList);
+}
+
+/**
+ * Set up event handlers for file buttons
+ */
+function setupFileButtonHandlers() {
+  conversationContainer.addEventListener('click', (event) => {
+    if (event.target.classList.contains('open-file-btn')) {
+      const filePath = event.target.getAttribute('data-path');
+      if (filePath) {
+        console.log(`Opening file: ${filePath}`);
+        window.electronAPI.files.openFile(filePath)
+          .catch(error => {
+            console.error(`Error opening file: ${error.message}`);
+            // Show error message to user
+            const errorMsg = document.createElement('p');
+            errorMsg.className = 'error-message';
+            errorMsg.textContent = `Error opening file: ${error.message}`;
+            event.target.parentNode.appendChild(errorMsg);
+          });
+      }
+    }
+  });
 }
 
 // Update your event listeners to use the new function name
@@ -118,6 +143,9 @@ export function renderTaskList() {
 
   // Clear the list
   todoList.innerHTML = '';
+
+  // Add custom scrollbar class explicitly
+  todoList.classList.add('custom-scrollbar');
 
   // Add each section and its tasks
   tasksData.sections.forEach(section => {

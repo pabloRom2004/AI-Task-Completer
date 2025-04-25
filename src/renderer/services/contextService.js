@@ -9,7 +9,7 @@ import { isTestModeEnabled, getSimulatedGlobalContext } from './testMode.js';
 // Cache for the current global context
 let currentGlobalContext = '';
 
-/**
+  /**
  * Generate the global context from clarification information
  * @param {string} taskDescription - The user's task description
  * @param {Array} clarificationConversation - The clarification conversation
@@ -22,8 +22,8 @@ export async function generateGlobalContext(taskDescription, clarificationConver
       console.log('Test mode enabled, using simulated global context');
       currentGlobalContext = getSimulatedGlobalContext()
       return currentGlobalContext;
-    }
-    
+  }
+
     // Format the clarification conversation
     const formattedConversation = formatClarificationConversation(clarificationConversation);
     
@@ -54,18 +54,18 @@ export async function generateGlobalContext(taskDescription, clarificationConver
     if (!response || !response.text) {
       throw new Error('Invalid response from model');
     }
-    
+
     // Store and return the context
     currentGlobalContext = response.text;
     return currentGlobalContext;
     
-  } catch (error) {
+    } catch (error) {
     console.error('Error generating global context:', error);
-    throw error;
+      throw error;
+    }
   }
-}
 
-/**
+  /**
  * Format the clarification conversation for inclusion in the prompt
  * @param {Array} conversation - Array of question-answer pairs
  * @returns {string} Formatted conversation text
@@ -73,20 +73,20 @@ export async function generateGlobalContext(taskDescription, clarificationConver
 function formatClarificationConversation(conversation) {
   if (!Array.isArray(conversation) || conversation.length === 0) {
     return 'No clarification questions were needed.';
-  }
-  
+    }
+
   return conversation.map((exchange, index) => 
     `Question ${index + 1}: ${exchange.question}\nAnswer ${index + 1}: ${exchange.answer}`
   ).join('\n\n');
-}
+  }
 
-/**
+  /**
  * Get the current global context
  * @returns {string} The current global context
- */
+   */
 export function getCurrentGlobalContext() {
   return currentGlobalContext;
-}
+    }
 
 /**
  * Set the global context directly
